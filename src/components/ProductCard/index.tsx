@@ -1,33 +1,27 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import cn from "classnames";
+import {Button} from "@mui/material";
 import {TProductCard} from "../../types/product.ts";
 import {useAppDispatch, useAppSelector} from "../../store";
 import {deleteProduct, updateFavorite} from "../../store/slices/productList.ts";
 import {formatCurrency} from "../../utils/utils.ts";
 import FavoriteIcon from "../../assets/heart.svg?react";
 import DeleteIcon from "../../assets/trash-bin.svg?react";
+import cn from "classnames";
 import style from "./index.module.scss";
-
-
-import {Button} from "@mui/material";
 
 export const ProductCard: React.FC<{ product: TProductCard }> = ({product}) => {
   const dispatch = useAppDispatch();
   const {title, description, thumbnail, id, price, apiType} = product;
-  const favoriteObj = useAppSelector(state => state.product.list.favorite);
+  const {favorite: favoriteObj, updateFavoriteStatus, deleteProductStatus} = useAppSelector(state => state.product.list);
   const isFavorite = favoriteObj[id]
 
-  const handleFavoriteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleFavoriteClick = () => {
     dispatch(updateFavorite({type: isFavorite ? 'remove' : 'add', id}));
   }
-  const handleDeleteClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const handleDeleteClick = () => {
     dispatch(deleteProduct(id));
   }
-
-
 
   return (
     <div className={style.container}>
@@ -36,18 +30,18 @@ export const ProductCard: React.FC<{ product: TProductCard }> = ({product}) => {
           className={cn(style.favoriteBtn, {[style.isFavorite]: isFavorite})}
           type='button'
           variant="contained"
-          color='primary'
+          color={updateFavoriteStatus[id] === 'loading' ? 'warning' : 'primary'}
           onClick={handleFavoriteClick}>
           <FavoriteIcon/>
         </Button>
-         <Button
-           className={style.deleteBtn}
-           type='button'
-           variant="contained"
-           color='primary'
-           onClick={handleDeleteClick}>
-           <DeleteIcon/>
-         </Button>
+        <Button
+          className={style.deleteBtn}
+          type='button'
+          variant="contained"
+          color={deleteProductStatus[id] === 'loading' ? 'warning' : 'primary'}
+          onClick={handleDeleteClick}>
+          <DeleteIcon/>
+        </Button>
       </div>
       <Link
         className={style.link}

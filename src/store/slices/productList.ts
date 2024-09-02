@@ -23,10 +23,14 @@ type InitialState = {
   favorite: Record<string, true>;
   favoriteStatus: 'idle' | 'loading' | 'success' | 'error';
   favoriteError: string | null;
+  updateFavoriteStatus: Record<string, 'idle' | 'loading' | 'success' | 'error'>;
+  updateFavoriteError: Record<string, string | null>;
 
   deleted: Record<string, true>;
   deletedStatus: 'idle' | 'loading' | 'success' | 'error';
   deletedError: string | null;
+  deleteProductStatus: Record<string, 'idle' | 'loading' | 'success' | 'error'>;
+  deleteProductError: Record<string, string | null>;
 }
 
 type UpdateFavoriteAction = {
@@ -51,10 +55,14 @@ const initialState: InitialState = {
   favorite: {},
   favoriteStatus: 'idle',
   favoriteError: null,
+  updateFavoriteStatus: {},
+  updateFavoriteError: {},
 
   deleted: {},
   deletedStatus: 'idle',
   deletedError: null,
+  deleteProductStatus: {},
+  deleteProductError: {}
 };
 
 export const getProductList = createAsyncThunk<TProductCard[], undefined, { rejectValue: string }>(
@@ -259,17 +267,20 @@ const productList = createSlice({
         state.favoriteError = action.payload as string;
       })
 
-      .addCase(updateFavorite.pending, (state) => {
-        state.favoriteStatus = 'loading';
-        state.favoriteError = null;
+      .addCase(updateFavorite.pending, (state, action) => {
+        const id = action.meta.arg.id;
+        state.updateFavoriteStatus[id] = 'loading';
+        state.updateFavoriteError[id] = null;
       })
       .addCase(updateFavorite.fulfilled, (state, action) => {
-        state.favoriteStatus = 'success';
+        const id = action.meta.arg.id;
+        state.updateFavoriteStatus[id] = 'success';
         state.favorite = action.payload;
       })
       .addCase(updateFavorite.rejected, (state, action) => {
-        state.favoriteStatus = 'error';
-        state.favoriteError = action.payload as string;
+        const id = action.meta.arg.id;
+        state.updateFavoriteStatus[id] = 'error';
+        state.updateFavoriteError[id] = action.payload as string;
       })
 
       .addCase(getDeletedList.pending, (state) => {
@@ -285,17 +296,20 @@ const productList = createSlice({
         state.deletedError = action.payload as string;
       })
 
-      .addCase(deleteProduct.pending, (state) => {
-        state.deletedStatus = 'loading';
-        state.deletedError = null;
+      .addCase(deleteProduct.pending, (state, action) => {
+        const id = action.meta.arg;
+        state.deleteProductStatus[id] = 'loading';
+        state.deleteProductError[id] = null;
       })
       .addCase(deleteProduct.fulfilled, (state, action) => {
-        state.deletedStatus = 'success';
+        const id = action.meta.arg;
+        state.deleteProductStatus[id] = 'success';
         state.deleted = action.payload;
       })
       .addCase(deleteProduct.rejected, (state, action) => {
-        state.deletedStatus = 'error';
-        state.deletedError = action.payload as string;
+        const id = action.meta.arg;
+        state.deleteProductStatus[id] = 'error';
+        state.deleteProductError[id] = action.payload as string;
       })
   },
 });
