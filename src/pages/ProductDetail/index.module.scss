@@ -1,0 +1,74 @@
+.container {
+  margin-bottom: 100px;
+}
+
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 30px;
+
+  img {
+    flex-shrink: 0;
+    max-width: 300px;
+    height: auto;
+  }
+}
+
+.qrCode {
+  width: 100px;
+  height: auto;
+}
+
+.rating {
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+
+  div {
+    color: gold;
+    display: flex;
+    overflow: hidden;
+
+    svg {
+      flex-shrink: 0;
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
+
+.table {
+  margin-top: 20px;
+  width: 100%;
+  outline: 1px solid gold;
+
+  tr {
+    border-bottom: 1px solid gold;
+
+    td {
+      padding: 5px 10px;
+    }
+
+    td:first-of-type {
+      width: 20%;
+      background-color: gold;
+    }
+  }
+}
+
+.size {
+  display: flex;
+  gap: 10px;
+}
+
+.reviewTitle {
+  margin-top: 30px;
+}
+
+.review {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: var(--c-gray);
+}

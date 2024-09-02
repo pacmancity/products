@@ -1,0 +1,104 @@
+.container {
+  display: grid;
+}
+
+.buttonsRow {
+  grid-area: 1 / 1 / -1 / -1;
+  z-index: 1;
+  place-self: start end;
+  margin: 10px;
+
+  button:first-of-type {
+    margin-right: 5px;
+  }
+}
+
+.link {
+  grid-area: 1 / 1 / -1 / -1;
+  display: grid;
+  grid-template-rows: auto auto 1fr 82px;
+  padding: 20px;
+  color: var(--c-def-black);
+  box-shadow: var(--shadow);
+  transition: scale 0.1s ease;
+
+  &:hover {
+    scale: 1.01;
+  }
+}
+
+.favoriteBtn {
+  &.isFavorite svg {
+    color: var(--c-er-red);
+
+    path:last-of-type {
+      fill: var(--c-er-red);
+    }
+  }
+
+  svg {
+    width: 30px;
+    height: 30px;
+    color: transparent;
+
+    path:last-of-type {
+      fill: var(--c-def-white);
+    }
+  }
+}
+
+.deleteBtn svg {
+  width: 30px;
+  height: 30px;
+}
+
+.image {
+  place-self: center;
+  max-width: 100%;
+}
+
+.title {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.description {
+  margin-top: 10px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 1199.98px) {
+  link {
+    grid-template-rows: auto auto 1fr 77.5px;
+  }
+
+  .title {
+    font-size: 17px;
+  }
+
+  .description {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .link {
+    padding: 15px;
+  }
+
+  .favoriteBtn svg,
+  .deleteBtn svg {
+    width: 25px;
+    height: 25px;
+  }
+
+  .title {
+    font-size: 16px;
+  }
+}
